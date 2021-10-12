@@ -44,6 +44,7 @@ func serveHTTP() {
 //HTTPAPIServerStreamReloadConfig stream reload
 func HTTPAPIServerStreamReloadConfig(c *gin.Context) {
 	Config.reload()
+	go serveStreams()
 	c.JSON(200, gin.H{"status": "ok"})
 }
 
