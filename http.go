@@ -32,12 +32,19 @@ func serveHTTP() {
 	router.POST("/stream/receiver/:uuid", HTTPAPIServerStreamWebRTC)
 	router.GET("/stream/codec/:uuid", HTTPAPIServerStreamCodec)
 	router.POST("/stream", HTTPAPIServerStreamWebRTC2)
+	router.GET("/stream/reload")
 
 	router.StaticFS("/static", http.Dir("web/static"))
 	err := router.Run(Config.Server.HTTPPort)
 	if err != nil {
 		log.Fatalln("Start HTTP Server error", err)
 	}
+}
+
+//HTTPAPIServerStreamReloadConfig stream reload
+func HTTPAPIServerStreamReloadConfig(c *gin.Context) {
+	Config.reload()
+	c.JSON(200, gin.H{"status": "ok"})
 }
 
 //HTTPAPIServerIndex  index

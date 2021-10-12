@@ -145,6 +145,14 @@ func loadConfig() *ConfigST {
 	return &tmp
 }
 
+func (element *ConfigST) reload() {
+	element.mutex.Lock()
+	defer element.mutex.Unlock()
+	newConfig := loadConfig()
+	element.Server = newConfig.Server
+	element.Streams = newConfig.Streams
+}
+
 func (element *ConfigST) cast(uuid string, pck av.Packet) {
 	element.mutex.Lock()
 	defer element.mutex.Unlock()
